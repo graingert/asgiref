@@ -47,8 +47,8 @@ __all__ = (
 
 
 class ASGIVersions(TypedDict):
-    spec_version: str
-    version: Literal["2.0"] | Literal["3.0"]
+    spec_version: NotRequired[str]
+    version: NotRequired[Literal["2.0"] | Literal["3.0"]]
 
 
 class HTTPScope(TypedDict):
@@ -56,14 +56,14 @@ class HTTPScope(TypedDict):
     asgi: ASGIVersions
     http_version: str
     method: str
-    scheme: str
+    scheme: NotRequired[str]
     path: str
-    raw_path: bytes
+    raw_path: NotRequired[bytes]
     query_string: bytes
-    root_path: str
+    root_path: NotRequired[str]
     headers: Iterable[tuple[bytes, bytes]]
-    client: tuple[str, int] | None
-    server: tuple[str, int | None] | None
+    client: NotRequired[tuple[str, int] | None]
+    server: NotRequired[tuple[str, int | None] | None]
     state: NotRequired[dict[str, Any]]
     extensions: dict[str, dict[object, object]] | None
 
@@ -71,16 +71,16 @@ class HTTPScope(TypedDict):
 class WebSocketScope(TypedDict):
     type: Literal["websocket"]
     asgi: ASGIVersions
-    http_version: str
-    scheme: str
+    http_version: NotRequired[str]
+    scheme: NotRequired[str]
     path: str
-    raw_path: bytes
-    query_string: bytes
-    root_path: str
+    raw_path: NotRequired[bytes]
+    query_string: NotRequired[bytes]
+    root_path: NotRequired[str]
     headers: Iterable[tuple[bytes, bytes]]
-    client: tuple[str, int] | None
-    server: tuple[str, int | None] | None
-    subprotocols: Iterable[str]
+    client: NotRequired[tuple[str, int] | None]
+    server: NotRequired[tuple[str, int | None] | None]
+    subprotocols: NotRequired[Iterable[str]]
     state: NotRequired[dict[str, Any]]
     extensions: dict[str, dict[object, object]] | None
 
@@ -97,8 +97,8 @@ Scope = Union[HTTPScope, WebSocketScope, LifespanScope]
 
 class HTTPRequestEvent(TypedDict):
     type: Literal["http.request"]
-    body: bytes
-    more_body: bool
+    body: NotRequired[bytes]
+    more_body: NotRequired[bool]
 
 
 class HTTPResponseDebugEvent(TypedDict):
@@ -109,14 +109,14 @@ class HTTPResponseDebugEvent(TypedDict):
 class HTTPResponseStartEvent(TypedDict):
     type: Literal["http.response.start"]
     status: int
-    headers: Iterable[tuple[bytes, bytes]]
-    trailers: bool
+    headers: NotRequired[Iterable[tuple[bytes, bytes]]]
+    trailers: NotRequired[bool]
 
 
 class HTTPResponseBodyEvent(TypedDict):
     type: Literal["http.response.body"]
-    body: bytes
-    more_body: bool
+    body: NotRequired[bytes]
+    more_body: NotRequired[bool]
 
 
 class HTTPResponseTrailersEvent(TypedDict):
@@ -146,20 +146,20 @@ class WebSocketConnectEvent(TypedDict):
 
 class WebSocketAcceptEvent(TypedDict):
     type: Literal["websocket.accept"]
-    subprotocol: str | None
-    headers: Iterable[tuple[bytes, bytes]]
+    subprotocol: NotRequired[str | None]
+    headers: NotRequired[Iterable[tuple[bytes, bytes]]]
 
 
 class WebSocketReceiveEvent(TypedDict):
     type: Literal["websocket.receive"]
-    bytes: bytes | None
-    text: str | None
+    bytes: NotRequired[bytes | None]
+    text: NotRequired[str | None]
 
 
 class WebSocketSendEvent(TypedDict):
     type: Literal["websocket.send"]
-    bytes: bytes | None
-    text: str | None
+    bytes: NotRequired[bytes | None]
+    text: NotRequired[str | None]
 
 
 class WebSocketResponseStartEvent(TypedDict):
@@ -177,13 +177,13 @@ class WebSocketResponseBodyEvent(TypedDict):
 class WebSocketDisconnectEvent(TypedDict):
     type: Literal["websocket.disconnect"]
     code: int
-    reason: str | None
+    reason: NotRequired[str | None]
 
 
 class WebSocketCloseEvent(TypedDict):
     type: Literal["websocket.close"]
-    code: int
-    reason: str | None
+    code: NotRequired[int]
+    reason: NotRequired[str | None]
 
 
 class LifespanStartupEvent(TypedDict):
@@ -200,7 +200,7 @@ class LifespanStartupCompleteEvent(TypedDict):
 
 class LifespanStartupFailedEvent(TypedDict):
     type: Literal["lifespan.startup.failed"]
-    message: str
+    message: NotRequired[str]
 
 
 class LifespanShutdownCompleteEvent(TypedDict):
@@ -209,7 +209,7 @@ class LifespanShutdownCompleteEvent(TypedDict):
 
 class LifespanShutdownFailedEvent(TypedDict):
     type: Literal["lifespan.shutdown.failed"]
-    message: str
+    message: NotRequired[str]
 
 
 ASGIReceiveEvent = Union[
